@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Well</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+  <div class="well-container">
+    <div class="well">
+      <a href="acknowledgment/" class="floating-button">acknowledgments</a>
+      <a href="apology/" class="floating-button">apologies</a>
+      <a href="facilitation/" class="floating-button">facilitation</a>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.floating-button');
+    const well = document.querySelector('.well-container');
+    const wellRadius = well.offsetWidth / 2;
+    const buttonRadius = 70; // Half the max button width (140px)
+    const edgeBuffer = 5;
+    const radius = wellRadius - buttonRadius - edgeBuffer;
+    const minDistance = 160;
+
+    let currentPositions = [];
+
+    function distance(a, b) {
+      return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+    }
+
+    function getNewPosition(btnIndex) {
+      let tries = 0;
+      while (tries < 1000) {
+        const angle = Math.random() * 2 * Math.PI;
+        const r = radius * Math.sqrt(Math.random());
+        const x = r * Math.cos(angle);
+        const y = r * Math.sin(angle);
+        let tooClose = false;
+        for (let j = 0; j < currentPositions.length; j++) {
+          if (j !== btnIndex) {
+            if (distance({ x, y }, currentPositions[j]) < minDistance) {
+              tooClose = true;
+              break;
+            }
+          }
+        }
+        if (!tooClose) return { x, y };
+        tries++;
+      }
+      return currentPositions[btnIndex]; // fallback
+    }
+
+    buttons.forEach((btn, i) => {
+      const angle = (i / buttons.length) * 2 * Math.PI;
+      const initX = radius * Math.cos(angle);
+      const initY = radius * Math.sin(angle);
+      currentPositions.push({ x: initX, y: initY });
+
+      anime.set(btn, {
+        translateX: initX,
+        translateY: initY
+      });
+
+      function floatContinuously() {
+        const newPos = getNewPosition(i);
+        currentPositions[i] = newPos;
+        anime({
+          targets: btn,
+          translateX: newPos.x,
+          translateY: newPos.y,
+          duration: 6000,
+          easing: 'linear',
+          complete: floatContinuously
+        });
+      }
+
+      floatContinuously();
+    });
+  </script>
+</body>
+</html>

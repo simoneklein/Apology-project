@@ -1,0 +1,181 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #000000;
+  color: #fcfcfc;
+  display: grid; /* Use grid layout */
+  grid-template-rows: auto 1fr; /* Top row for the link, rest for content */
+  min-height: 100vh;
+    font-family: "Karla", Arial, sans-serif;
+  }
+
+@font-face {
+    font-family: "Karla";
+    src: url("Assets/Karla-Medium.ttf");
+  }
+
+.apologies-page {
+    display: grid; /* Enable grid layout */
+    grid-template-rows: auto 1fr; /* Top row for the link, bottom for the content */
+    grid-template-columns: 1fr; /* Single column layout */
+    height: 100vh; /* Full viewport height */
+    position: relative;
+  }
+  
+  .return-link {
+    writing-mode: vertical-rl; /* Rotate text vertically from right to left */
+    text-orientation: mixed; /* Ensure proper orientation of characters */
+    position: absolute; /* Position it along the side of the page */
+    top: 20%; /* Center vertically */
+    left: 2; /* Align to the left side */
+    color: #718ba4;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: "Karla";
+    margin: 0; /
+  }
+  
+  .prompt-container {
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full width of the page */
+    margin: 0; /* Remove any margin */
+    padding: 0; /* Remove any padding */
+  }
+
+
+  #reflection-questions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+}
+
+/* Always center the record button inside its container */
+#prompt-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Stick the privacy note to the bottom */
+.privacy-note {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: #ffffff;
+  font-family: "Karla";
+  text-align: center;
+}
+
+
+#recordBtn {
+width: 150px; /* Set the width */
+height: 150px; /* Set the height to match the width */
+border-radius: 50%; /* Make it a circle */
+font-size: 1rem; /* Adjust font size to fit inside the circle */
+border: none;
+background-color: rgb(233, 230, 21);
+color: white;
+cursor: pointer;
+transition: transform 0.4s ease;
+display: flex;
+justify-content: center;
+align-items: center; /* Center the text/icon inside the circle */
+}
+
+#recordBtn.hidden {
+    opacity: 0; /* Fade out */
+    pointer-events: none; /* Disable interactions while hidden */
+  }
+
+
+#recordBtn:hover {
+transform: scale(1.2); /* Slightly enlarge on hover */
+}
+
+#playback {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.tunnel {
+  grid-row: 4;
+    margin: 2rem auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #87cefa, #1e90ff);
+  opacity: 0;
+}
+
+#reflection-questions {
+    margin-top: 2rem;
+    opacity: 1;
+    border-radius: 50%;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: rgba(234, 238, 247, 0.1);
+    color: rgb(5, 0, 0);
+    outline-color: black
+    font-family: "Karla";
+  }
+  
+  #reflection-questions.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+.reflection {
+  display: block;
+  margin: 0.5rem auto;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background-color: #566a7d;
+  color: white;
+  border-color: #000000;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: "Karla";
+  width: fit-content;
+}
+
+.reflection:hover {
+  background-color: #64a1d2;
+}
+
+
+.return-link:hover {
+  text-decoration: underline;
+}
+
+.privacy-note {
+  font-size: 0.85rem;
+  margin-top: 20rem;
+  color: #ffffff;
+  font-family:"Karla";
+}
+
+@media (max-width: 600px) {
+  .apologies-page {
+    padding: 1rem;
+  }
+  #recordBtn, .reflection {
+    width: 100%;
+  }
+}

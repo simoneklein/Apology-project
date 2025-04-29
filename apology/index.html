@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apologies</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+  <div class="apologies-page">
+    <a href="../" class="return-link">return to the well</a>
+
+    <div class="prompt-container" id="prompt-container">
+
+      <button id="recordBtn"></button>
+      <audio id="playback" style="display:none;"></audio>
+    </div>
+
+    <div id="tunnel-animation" class="tunnel"></div>
+
+    <div id="reflection-questions" class="hidden">
+      <button class="reflection">who did you think of?</button>
+      <button class="reflection">can you recieve it?</button>
+      <button class="reflection">what did you sound like?</button>
+    </div>
+
+    <p class="privacy-note">your voice is not stored or sent to any server.</p>
+  </div>
+
+  <script>
+   document.addEventListener('DOMContentLoaded', () => {
+  const recordBtn = document.getElementById('recordBtn');
+  const playback = document.getElementById('playback');
+  const tunnel = document.getElementById('tunnel-animation');
+  const reflections = document.getElementById('reflection-questions');
+  const promptContainer = document.getElementById('prompt-container');
+
+  let mediaRecorder;
+  let audioChunks = [];
+
+  recordBtn.addEventListener('click', async () => {
+    audioChunks = [];
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+
+    // Hide the record button when recording starts
+    recordBtn.style.display = 'none';
+
+    mediaRecorder.ondataavailable = event => {
+      audioChunks.push(event.data);
+    };
+
+    mediaRecorder.onstop = () => {
+      const audioBlob = new Blob(audioChunks);
+      const audioUrl = URL.createObjectURL(audioBlob);
+      playback.src = audioUrl;
+
+      // Play the audio
+      playback.play().then(() => {
+        console.log("Playback started");
+      }).catch(error => {
+        console.error("Playback error:", error);
+      });
+
+      // Trigger the tunnel animation
+      animateTunnel();
+    };
+
+    mediaRecorder.start();
+
+    setTimeout(() => {
+      mediaRecorder.stop();
+    }, 3000);
+  });
+
+  function animateTunnel() {
+  anime({
+    targets: tunnel,
+    scale: [1, 5],
+    opacity: [1, 0],
+    duration: 4000,
+    easing: 'easeInOutQuad',
+    complete: () => {
+      // Hide the tunnel element completely after the animation
+      tunnel.style.display = 'none';
+
+      // Hide the prompt container and show the reflection questions
+      promptContainer.style.display = 'none';
+      reflections.classList.remove('hidden');
+    }
+  });
+}
+
+  // Add event listeners to reflection buttons
+  document.querySelectorAll('.reflection').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Hide the reflection questions
+      reflections.classList.add('hidden');
+
+      // Show the prompt container and the record button again
+      promptContainer.style.display = 'block';
+      recordBtn.style.display = 'block';
+
+      // Hide the playback audio element
+      playback.style.display = 'none';
+    });
+  });
+});
+  </script>
+  
+</body>
+</html>
