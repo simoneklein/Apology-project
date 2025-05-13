@@ -132,7 +132,7 @@ transform: scale(1.2); /* Slightly enlarge on hover */
     background-color: rgba(234, 238, 247, 0.1);
     color: rgb(5, 0, 0);
     outline-color: black
-    font-family: "Karla";
+    fon "Karla";
   }
   
   #reflection-questions.hidden {
